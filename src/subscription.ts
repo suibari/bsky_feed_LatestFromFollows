@@ -34,6 +34,9 @@ export class JetstreamSubscription {
     // 投稿者がインデックス対象（誰かのフォロイー）でない場合は無視
     if (!isSubscribedDid(evt.did)) return
 
+    // リプライは収集対象から除外
+    if (evt.commit.record?.reply) return
+
     const post = {
       did: evt.did,
       uri: `at://${evt.did}/app.bsky.feed.post/${evt.commit.rkey}`,
