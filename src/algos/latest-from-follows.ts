@@ -3,7 +3,7 @@ import { AppContext } from '../config.js'
 import { agent } from '../login.js'
 import { addSubTarget } from '../db/subscriberCache.js'
 
-export const shortname = 'latest-from-follows'
+export const shortname = 'latestFromFollows'
 
 export const handler = async (ctx: AppContext, params: QueryParams, requesterDid: string) => {
   const PAGE_SIZE = Math.min(params.limit ?? 100, 100)
