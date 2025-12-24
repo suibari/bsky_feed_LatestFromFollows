@@ -9,7 +9,6 @@ import { createDb, Database, migrateToLatest } from './db/index.js'
 import { JetstreamSubscription } from './subscription.js'
 import { AppContext, Config } from './config.js'
 import wellKnown from './well-known.js'
-import { startCleanupTask } from './db/cleanup.js'
 import { initAgent } from './login.js'
 import { initSubscriberCache } from './db/subscriberCache.js'
 
@@ -67,10 +66,9 @@ export class FeedGenerator {
   async start(): Promise<http.Server> {
     await migrateToLatest(this.db)
 
-    // 定期処理をしかける
-    startCleanupTask(this.db)
+    // 定期的なキャッシュ更新
     initSubscriberCache(this.db)
-    // BSKYログイン
+    // Blueskyへのログイン（agentの初期化）
     await initAgent();
 
     await this.jetstreamSub.run()
